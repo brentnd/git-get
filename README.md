@@ -24,15 +24,17 @@ Follow these steps to get the `git get` command working.
 
 Install the git-get command into `$GOPATH/bin`.
 
-```
+```bash
 go get github.com/brentnd/git-get
 ```
 
 ### Usage
 
 As a git plugin, the git-get command is run with:
-```
-git get <repo>
+```bash
+git get git@github.com:brentnd/git-get.git       # ssh
+git get https://github.com/brentnd/git-get.git   # https
+git get github.com/brentnd/git-get               # go package style
 ```
 
 ## Built With
