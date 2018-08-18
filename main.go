@@ -6,6 +6,8 @@ import (
 
 	"go/build"
 	"gopkg.in/src-d/go-git.v4"
+	"gopkg.in/src-d/go-git.v4/config"
+	"gopkg.in/src-d/go-git.v4/storage/memory"
 	"net/url"
 	"path/filepath"
 	"strings"
@@ -51,6 +53,22 @@ func parseRawURL(rawurl string) (directory, remote string) {
 	return
 }
 
+func remoteRepoExists(remote string) error {
+	r, err := git.Init(memory.NewStorage(), nil)
+	if err != nil {
+		return err
+	}
+	rem, err := r.CreateRemote(&config.RemoteConfig{
+		Name: "origin",
+		URLs: []string{remote},
+	})
+	if err != nil {
+		return err
+	}
+	_, err = rem.List(&git.ListOptions{})
+	return err
+}
+
 // Basic example of how to clone a repository using clone options.
 func main() {
 	if len(os.Args) < 2 {
@@ -58,6 +76,10 @@ func main() {
 	}
 
 	directory, remote := parseRawURL(os.Args[1])
+
+	if err := remoteRepoExists(remote); err != nil {
+		exitWithError("fatal: %s", err)
+	}
 
 	// Check that this is an appropriate place for the repo to be checked out.
 	// The target directory must either not exist or have a repo checked out already.
@@ -79,7 +101,7 @@ func main() {
 		}
 		_, err = git.PlainClone(directory, false, &git.CloneOptions{URL: remote})
 		if err != nil {
-			exitWithError("clone failed: %s", err)
+			exitWithError("fatal: %s", err)
 		}
 	} else {
 		fmt.Printf("repo already exists at %s\n", directory)

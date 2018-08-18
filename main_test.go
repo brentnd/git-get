@@ -23,3 +23,17 @@ func TestParseRawURL(t *testing.T) {
 	assert.Equal(t, filepath.FromSlash(build.Default.GOPATH+"/src/github.com/brentnd/git-get"), dir)
 	assert.Equal(t, "https://github.com/brentnd/git-get.git", remote)
 }
+
+func TestRemoteRepoExists(t *testing.T) {
+	err := remoteRepoExists("https://github.com/brentnd/git-get.git")
+	assert.Nil(t, err)
+
+	err = remoteRepoExists("git@github.com:brentnd/git-get.git")
+	assert.Nil(t, err)
+
+	err = remoteRepoExists("git@github.com:brentnd/missing.git")
+	assert.NotNil(t, err)
+
+	err = remoteRepoExists("bad-input-for-repo")
+	assert.NotNil(t, err)
+}
