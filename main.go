@@ -69,7 +69,6 @@ func remoteRepoExists(remote string) error {
 	return err
 }
 
-// Basic example of how to clone a repository using clone options.
 func main() {
 	if len(os.Args) < 2 {
 		exitWithError("usage: git get <repo>")
