@@ -71,13 +71,13 @@ func remoteRepoExists(remote string) error {
 
 func main() {
 	if len(os.Args) < 2 {
-		exitWithError("usage: git get <repo>")
+		exitWithError("fatal: You must specify a repository to clone.\n\nusage: git get <repo>")
 	}
 
 	directory, remote := parseRawURL(os.Args[1])
 
 	if err := remoteRepoExists(remote); err != nil {
-		exitWithError("fatal: %s", err)
+		exitWithError("fatal: repository '%s' does not exist", os.Args[1])
 	}
 
 	// Check that this is an appropriate place for the repo to be checked out.
