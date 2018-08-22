@@ -14,7 +14,7 @@ import (
 )
 
 func exitWithError(format string, a ...interface{}) {
-	fmt.Fprintf(os.Stderr, format, a...)
+	fmt.Fprintf(os.Stderr, "fatal: "+format+"\n", a...)
 	os.Exit(1)
 }
 
@@ -71,13 +71,13 @@ func remoteRepoExists(remote string) error {
 
 func main() {
 	if len(os.Args) < 2 {
-		exitWithError("fatal: You must specify a repository to clone.\n\nusage: git get <repo>")
+		exitWithError("You must specify a repository to clone.\n\nusage: git get <repo>")
 	}
 
 	directory, remote := parseRawURL(os.Args[1])
 
 	if err := remoteRepoExists(remote); err != nil {
-		exitWithError("fatal: repository '%s' does not exist", os.Args[1])
+		exitWithError("repository '%s' does not exist", os.Args[1])
 	}
 
 	// Check that this is an appropriate place for the repo to be checked out.
@@ -100,9 +100,9 @@ func main() {
 		}
 		_, err = git.PlainClone(directory, false, &git.CloneOptions{URL: remote})
 		if err != nil {
-			exitWithError("fatal: %s", err)
+			exitWithError("%s", err)
 		}
 	} else {
-		fmt.Printf("repo already exists at %s\n", directory)
+		exitWithError("destination path '%s' already exists and is not an empty directory.", directory)
 	}
 }
