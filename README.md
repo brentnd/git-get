@@ -37,6 +37,12 @@ git get https://github.com/brentnd/git-get.git   # https
 git get github.com/brentnd/git-get               # go package style
 ```
 
+To clone a private repo, be sure your SSH key is added to the authentication agent.
+In most cases done with:
+```bash
+ssh-add [key-file]
+```
+
 ## Built With
 
 * [go-git](https://github.com/src-d/go-git) - go-git library
