@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /go/src/github.com/brentnd/git-get
+    steps:
+      - checkout
+      - run:
+          name: Deps
+          command: go get -v -t -d ./...
+      - run:
+          name: Build
+          command: go build -o build/git-get main.go
+      - run:
+          name: Unit Tests
+          command: go test -v -cover -race
+      - run:
+          name: Integration Test (git plugin)
+          command: |
+            cp build/git-get $GOPATH/bin
+            git get git@github.com:brentnd/git-get.git 2>&1 | grep -q 'already exists'
+            git get git@github.com:brentnd/missing.git 2>&1 | grep -q 'does not exist'
+            GOPATH=/tmp git get git@github.com:brentnd/git-get.git
+            ls /tmp/src/github.com/brentnd/git-get/README.md
