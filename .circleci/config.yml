@@ -19,4 +19,5 @@ jobs:
           name: Integration Test (git plugin)
           command: |
             cp build/git-get $GOPATH/bin
-            git get git@github.com:brentnd/git-get.git 2>&1 | grep 'already exists'
+            git get | grep 'usage'
+            GOPATH=/tmp git get git@github.com:brentnd/git-get.git 2>&1 | grep 'already exists'
