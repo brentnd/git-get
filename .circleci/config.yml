@@ -19,10 +19,11 @@ jobs:
           name: Install
           command: cp build/git-get $GOPATH/bin
       - run:
-          name: Integration Test (Sad Path)
-          command: git get github.com/brentnd/git-get 2>&1 | grep 'already exists'
-      - run:
-          name: Integration Test (Happy Path)
+          name: Integration Test
           command: |
+            git get |& tee test.out
+            grep -q 'usage' test.out
+            git get github.com/brentnd/git-get |& tee test.out
+            grep -q 'already exists' test.out
             GOPATH=/tmp git get github.com/brentnd/git-get
             ls /tmp/src/github.com/brentnd/git-get/README.md
