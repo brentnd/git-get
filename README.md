@@ -1,5 +1,7 @@
 # git get
 
+[![CircleCI](https://circleci.com/gh/brentnd/git-get.svg?style=svg)](https://circleci.com/gh/brentnd/git-get)
+
 A simple plugin for git which allows cloning repos from any directory into their directory based on how
 gopath works.
 

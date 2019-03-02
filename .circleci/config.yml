@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /go/src/github.com/brentnd/git-get
+    steps:
+      - checkout
+      - run:
+          name: Deps
+          command: go get -v -t -d ./...
+      - run:
+          name: Build
+          command: go build -o build/git-get main.go
+      - run:
+          name: Unit Tests
+          command: go test -v -cover -race
+      - run:
+          name: Install
+          command: cp build/git-get $GOPATH/bin
+      - run:
+          name: Integration Test
+          command: |
+            git get || exit 0
+            git get github.com/brentnd/git-get || exit 0
+            GOPATH=/tmp git get github.com/brentnd/git-get
+            ls /tmp/src/github.com/brentnd/git-get/README.md
+            rm -rf /tmp/src
+            GOPATH=/tmp git get https://github.com/brentnd/git-get
+            ls /tmp/src/github.com/brentnd/git-get/README.md
+            rm -rf /tmp/src
+            GOPATH=/tmp git get git@github.com/brentnd/git-get.git
+            ls /tmp/src/github.com/brentnd/git-get/README.md
