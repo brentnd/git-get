@@ -16,8 +16,13 @@ jobs:
           name: Unit Tests
           command: go test -v -cover -race
       - run:
-          name: Integration Test (git plugin)
+          name: Install
+          command: cp build/git-get $GOPATH/bin
+      - run:
+          name: Integration Test (Usage)
+          command: git get 2>&1 | grep usage
+      - run:
+          name: Integration Test (Happy Path)
           command: |
-            cp build/git-get $GOPATH/bin
             GOPATH=/tmp git get github.com/brentnd/git-get
             ls /tmp/src/github.com/brentnd/git-get/README.md
