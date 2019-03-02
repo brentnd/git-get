@@ -19,8 +19,8 @@ jobs:
           name: Install
           command: cp build/git-get $GOPATH/bin
       - run:
-          name: Integration Test (Usage)
-          command: git get 2>&1 | grep usage
+          name: Integration Test (Sad Path)
+          command: git get github.com/brentnd/git-get 2>&1 | grep 'already exists'
       - run:
           name: Integration Test (Happy Path)
           command: |
