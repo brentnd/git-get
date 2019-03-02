@@ -25,3 +25,9 @@ jobs:
             git get github.com/brentnd/git-get || exit 0
             GOPATH=/tmp git get github.com/brentnd/git-get
             ls /tmp/src/github.com/brentnd/git-get/README.md
+            rm -rf /tmp/src
+            GOPATH=/tmp git get https://github.com/brentnd/git-get
+            ls /tmp/src/github.com/brentnd/git-get/README.md
+            rm -rf /tmp/src
+            GOPATH=/tmp git get git@github.com/brentnd/git-get.git
+            ls /tmp/src/github.com/brentnd/git-get/README.md
