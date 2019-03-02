@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Integration Test
           command: |
-            git get && exit 1
-            git get github.com/brentnd/git-get && exit 1
+            git get || exit 0
+            git get github.com/brentnd/git-get || exit 0
             GOPATH=/tmp git get github.com/brentnd/git-get
             ls /tmp/src/github.com/brentnd/git-get/README.md
