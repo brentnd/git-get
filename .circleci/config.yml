@@ -21,9 +21,9 @@ jobs:
       - run:
           name: Integration Test
           command: |
-            git get |& tee test.out
-            grep -q 'usage' test.out
-            git get github.com/brentnd/git-get |& tee test.out
-            grep -q 'already exists' test.out
+            git get &> test.out || true
+            grep 'usage' test.out
+            git get github.com/brentnd/git-get &> test.out
+            grep 'already exists' test.out
             GOPATH=/tmp git get github.com/brentnd/git-get
             ls /tmp/src/github.com/brentnd/git-get/README.md
