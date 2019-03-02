@@ -19,4 +19,4 @@ jobs:
           name: Integration Test (git plugin)
           command: |
             cp build/git-get $GOPATH/bin
-            git get 2>&1 || true | grep 'usage'
+            git get  2>&1 >/dev/null | grep usage
